@@ -1,0 +1,114 @@
+---
+---
+
+<section>
+  <h2>Link Hover</h2>
+  <div class="container">
+    <a class="text" href="#">Home</a>
+    <a class="text" href="#">About</a>
+    <a class="text" href="#">Shop</a>
+    <a class="text" href="#">Contact</a>
+  </div>
+</section>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+
+  }
+
+  .text {
+    text-decoration: none;
+    font-size: 6rem;
+    font-weight: bolder;
+    line-height: 8rem;
+    overflow: hidden;
+  }
+
+  .text:hover .letter,
+  .text.play .letter {
+    transform: translateY(-100%);
+  }
+
+  .text .block:last-child {
+    color: blue;
+  }
+
+  .text .letter {
+    display: inline-block;
+    transition: transform 0.6s cubic-bezier(0.76, 0, 0.024, 1);
+  }
+
+  .letter:nth-child(1) {
+    transition-delay: 0s;
+  }
+
+  .letter:nth-child(2) {
+    transition-delay: 0.03s;
+  }
+
+  .letter:nth-child(3) {
+    transition-delay: 0.06s;
+  }
+
+  .letter:nth-child(4) {
+    transition-delay: 0.09s;
+  }
+
+  .letter:nth-child(5) {
+    transition-delay: 0.12s;
+  }
+
+  .letter:nth-child(6) {
+    transition-delay: 0.15s;
+  }
+
+  .letter:nth-child(7) {
+    transition-delay: 0.18s;
+  }
+
+  .letter:nth-child(8) {
+    transition-delay: 0.21s;
+  }
+
+  .letter:nth-child(9) {
+    transition-delay: 0.24s;
+  }
+
+  .letter:nth-child(10) {
+    transition-delay: 0.27s;
+  }
+</style>
+
+<script>
+  let elements = document.querySelectorAll(".text");
+
+  elements.forEach((element) => {
+    let innerText = element.innerText;
+    element.innerHTML = "";
+
+    let textContainer = document.createElement("div");
+    textContainer.classList.add("block");
+
+    for (let letter of innerText) {
+      let span = document.createElement("span");
+      span.innerText = letter.trim() === "" ? "\xa0" :letter;
+      span.classList.add("letter");
+      textContainer.appendChild(span);
+    }
+
+    element.appendChild(textContainer);
+    element.appendChild(textContainer.cloneNode(true));
+  });
+
+  elements.forEach((element) => {
+    element.addEventListener("mouseover", () => {
+      element.classList.remove("play");
+    });
+  });
+</script>

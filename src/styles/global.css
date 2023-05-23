@@ -5,8 +5,18 @@
   box-sizing: border-box;
 }
 
+
+*::selection {
+  background-color: antiquewhite;
+  color: rgb(22, 22, 22);
+}
+
 h1 {
   font-size: 6rem;
+}
+
+h2 {
+  font-size: 4rem;
 }
 
 /* ----------------------------------lenis------------------------ */
@@ -33,18 +43,3 @@ html.lenis {
 
 /* ---------------------------------------------------------- */
 
-
-/* -------------------------Image Loading Animation--------------- */
-
-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: .5s;
-}
-
-canvas.active {
-    opacity: 1;
-}
-
-/* ----------------------------------------------------------- */

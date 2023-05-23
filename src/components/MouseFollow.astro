@@ -1,0 +1,97 @@
+<section>
+  <h2>Mouse follow</h2>
+
+  <div class="wrapper">
+    <svg id="svg" viewBox="0 0 1000 1000">
+      <g id="left">
+        <circle
+          class="outer"
+          cx="400"
+          cy="500"
+          r="100"
+          stroke="#0f0f0f"
+          stroke-width="2"
+          fill="#fff"></circle>
+        <circle class="inner" cx="480" cy="500" r="20" fill="#0f0f0f"></circle>
+      </g>
+
+      <g id="right">
+        <circle
+          class="outer"
+          cx="600"
+          cy="500"
+          r="100"
+          stroke="#0f0f0f"
+          stroke-width="2"
+          fill="#fff"></circle>
+        <circle class="inner" cx="680" cy="500" r="20" fill="#0f0f0f"></circle>
+      </g>
+    </svg>
+  </div>
+</section>
+
+
+<style>
+
+</style>
+
+<script>
+
+    import gsap from "gsap";
+
+
+    const svg = document.querySelector("#svg");
+    const mouse = svg.createSVGPoint();
+
+    const left = createEye("#left");
+    const right = createEye("#right");
+
+    let requestId = null;
+
+    window.addEventListener("mousemove", onmousemove);
+
+    function onFrame() {
+        let point = mouse.matrixTransform(svg.getScreenCTM().inverse());
+
+        left.rotateTo(point);
+        right.rotateTo(point);
+
+        requestId = null;
+    }
+
+    function onmousemove(event) {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+
+        if (!requestId) {
+            requestId = requestAnimationFrame(onFrame);
+        }
+    }
+
+    function createEye(selector) {
+        const element = document.querySelector(selector);
+        gsap.set(element, {
+            transformOrigin: "center",
+        });
+
+        let bbox = element.getBBox();
+        let centerX = bbox.x + bbox.width / 2;
+        let centerY = bbox.y + bbox.height / 2;
+
+        function rotateTo(point) {
+            let dx = point.x - centerX;
+            let dy = point.y - centerY;
+
+            let angle = Math.atan2(dy, dx);
+
+            gsap.to(element, 0.3, {
+                rotate: angle + "_rad_short",
+            });
+        }
+
+        return {
+            element,
+            rotateTo,
+        };
+    }
+</script>

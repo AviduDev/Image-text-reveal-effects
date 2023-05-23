@@ -1,4 +1,8 @@
 ---
+import Hero from "../components/Hero.astro";
+import ImageSlider from "../components/ImageSlider.astro";
+import LinkHover from "../components/LinkHover.astro";
+import MouseFollow from "../components/MouseFollow.astro";
 import Layout from "../layouts/Layout.astro";
 // --------------------Fetching Data-------------------------
 const response = await fetch(
@@ -13,11 +17,12 @@ const response = await fetch(
       query: `
         {
           products {
-			title
-    		slug
-    		mainImage
+			      title
+    		    slug
+    		    mainImage
           }
-        }
+        },
+   
       `,
     }),
   }
@@ -29,27 +34,53 @@ const products = await response.json();
 
 <Layout title="Home">
   <main>
-    <h1>Astro</h1>
-
     <a href="#bottom" id="top"><i>To Bottom</i></a>
 
-    <ul>
-      {
-        products.data.products.map((product) => (
-          <li>
-            <img src={product.mainImage.url} alt={product.title} />
-            <a href={`/products/${product.slug}`}>
-              <h1 class="animated">{product.title}</h1>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    <Hero />
+
+    <!-- ------------------------Image And Text Reveal--------------------- -->
+
+    <!-- --------------------------------Mouse follow------------------ -->
+
+    <MouseFollow />
+
+    <!-- ------------------------------- -->
+    <section>
+      <h1>Random Text and Image Reveal</h1>
+
+      <ul>
+        {
+          products.data.products.map((product) => (
+            <li>
+              <img src={product.mainImage.url} alt={product.title} />
+              <a href={`/products/${product.slug}`}>
+                <h1 class="animated">{product.title}</h1>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <!-- ------------------------Image Slider--------------------- -->
+
+
+
+    <!-- ------------------------Mouse Follow--------------------- -->
+
+   
+
+    <!-- ------------------------Image And Text Reveal--------------------- -->
+    <!-- ------------------------Image And Text Reveal--------------------- -->
+
     <a href="#top" id="bottom"><i>To Top</i></a>
   </main>
 </Layout>
 
 <style>
+  main {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
   li {
     display: flex;
     flex-direction: column;
@@ -67,6 +98,7 @@ const products = await response.json();
 </style>
 
 <script>
+  // ----------------------------Random Text ----------------------------
   const letters = "abcdefghijklmnopqrstuvwxyz";
 
   document.querySelectorAll("h1.animated").forEach((h1) => {
@@ -93,4 +125,6 @@ const products = await response.json();
       }, 30);
     };
   });
+
+  // -----------------------------------Image Slider--------------------------
 </script>
