@@ -1,4 +1,6 @@
 ---
+import Layout from "../layouts/Layout.astro";
+// --------------------Fetching Data-------------------------
 const response = await fetch(
   "https://eu-central-1-shared-euc1-02.cdn.hygraph.com/content/clhzrm4dw2zt701ut4w9p35b8/master",
   {
@@ -21,31 +23,31 @@ const response = await fetch(
   }
 );
 const products = await response.json();
+
+// -----------------------------------------------
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
+<Layout title="Home">
+  <main>
     <h1>Astro</h1>
+
+    <a href="#bottom" id="top"><i>To Bottom</i></a>
 
     <ul>
       {
         products.data.products.map((product) => (
           <li>
             <img src={product.mainImage.url} alt={product.title} />
-            <a href={`/products/${product.slug}`}>{product.title}</a>
+            <a href={`/products/${product.slug}`}>
+              <h2>{product.title}</h2>
+            </a>
           </li>
         ))
       }
     </ul>
-  </body>
-</html>
+    <a href="#top" id="bottom"><i>To Top</i></a>
+  </main>
+</Layout>
 
 <style>
   li {
@@ -59,3 +61,6 @@ const products = await response.json();
     max-width: 50%;
   }
 </style>
+
+<script>
+</script>
