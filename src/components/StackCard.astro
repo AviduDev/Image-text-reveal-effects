@@ -1,0 +1,86 @@
+---
+---
+
+<section>
+  <div class="container">
+    <ul class="cards">
+      <li class="card" id="card1">
+        <div class="card-body">
+          <h3>Card 1</h3>
+        </div>
+      </li>
+      <li class="card" id="card2">
+        <div class="card-body">
+          <h3>Card 2</h3>
+        </div>
+      </li>
+      <li class="card" id="card3">
+        <div class="card-body">
+          <h3>Card 3</h3>
+        </div>
+      </li>
+      <li class="card" id="card4">
+        <div class="card-body">
+          <h3>Card 4</h3>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  h3 {
+    font-size: 3rem;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  .card {
+    height: 450px;
+    width: 650px;
+    display: grid;
+    place-content: center;
+    border-radius: 1rem;
+    position: sticky;
+    top: 20vh;
+    /* margin: 4rem;
+    padding: 2rem; */
+  }
+
+  .container {
+    width: 100%;
+    display: grid;
+    place-content: center;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: 4;
+    gap: 2rem;
+  }
+
+  #card1 {
+    background-color: #ffadad;
+    z-index: 1;
+  }
+
+  #card2 {
+    background-color: #e9ffad;
+    z-index: 2;
+  }
+
+  #card3 {
+    background-color: #adfff1;
+    z-index: 3;
+  }
+
+  #card4 {
+    background-color: #e1adff;
+    z-index: 4;
+  }
+</style>
+
+<script></script>

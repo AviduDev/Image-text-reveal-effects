@@ -3,6 +3,7 @@ import Hero from "../components/Hero.astro";
 import ImageSlider from "../components/ImageSlider.astro";
 import LinkHover from "../components/LinkHover.astro";
 import MouseFollow from "../components/MouseFollow.astro";
+import StackCard from "../components/StackCard.astro";
 import TextReveal from "../components/TextReveal.astro";
 import Layout from "../layouts/Layout.astro";
 // --------------------Fetching Data-------------------------
@@ -37,9 +38,9 @@ const products = await response.json();
   <main>
     <a href="#bottom" id="top"><i>To Bottom</i></a>
 
-    <Hero />
+    <!-- ------------------------Logo Shrink--------------------- -->
 
-    <!-- ------------------------Image And Text Reveal--------------------- -->
+    <Hero />
 
     <!-- --------------------------------Mouse follow------------------ -->
 
@@ -49,7 +50,9 @@ const products = await response.json();
 
     <TextReveal />
 
-    <!-- ------------------------------- -->
+    <!-- ------------------------Stack Card--------------------- -->
+    <StackCard />
+
     <section>
       <ul>
         {
