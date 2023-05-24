@@ -3,6 +3,7 @@ import Hero from "../components/Hero.astro";
 import ImageSlider from "../components/ImageSlider.astro";
 import LinkHover from "../components/LinkHover.astro";
 import MouseFollow from "../components/MouseFollow.astro";
+import TextReveal from "../components/TextReveal.astro";
 import Layout from "../layouts/Layout.astro";
 // --------------------Fetching Data-------------------------
 const response = await fetch(
@@ -44,10 +45,12 @@ const products = await response.json();
 
     <MouseFollow />
 
+    <!-- --------------------------------Paragraph Reveal------------------ -->
+
+    <TextReveal />
+
     <!-- ------------------------------- -->
     <section>
-      <h1>Random Text and Image Reveal</h1>
-
       <ul>
         {
           products.data.products.map((product) => (
@@ -63,11 +66,7 @@ const products = await response.json();
     </section>
     <!-- ------------------------Image Slider--------------------- -->
 
-
-
     <!-- ------------------------Mouse Follow--------------------- -->
-
-   
 
     <!-- ------------------------Image And Text Reveal--------------------- -->
     <!-- ------------------------Image And Text Reveal--------------------- -->

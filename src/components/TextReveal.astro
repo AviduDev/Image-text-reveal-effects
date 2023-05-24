@@ -1,0 +1,82 @@
+---
+---
+
+<section>
+  <h1>Paragraph Reveal</h1>
+
+  <div class="wrapper">
+    <h2 class="copy">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda,
+      ducimus nostrum tempore expedita ipsa fuga sapiente? Quo incidunt, rerum
+      eveniet totam ut, libero ea numquam, eius doloribus et quasi laboriosam
+      cum possimus delectus quod quibusdam tempore neque minima iste veritatis.
+    </h2>
+  </div>
+</section>
+
+<style>
+    .wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 4rem 0 4rem 0;
+        background-color: #11584f;
+        padding: 1rem;
+    }
+    .copy {
+        position: relative;
+        width: 75%;
+        mix-blend-mode: difference;
+        text-align: center;
+        overflow: hidden;
+        color: rgb(255, 255, 255);
+    }
+
+    .split-line {
+        overflow: hidden;
+    }
+
+    .split-parent {
+        overflow: hidden;
+    }
+</style>
+
+
+<script>
+    import gsap from "gsap";
+    import ScrollTrigger from "gsap/ScrollTrigger";
+
+
+    gsap.registerPlugin(ScrollTrigger);
+
+
+    const copies = document.querySelectorAll(".copy");
+
+    function setupSplits() {
+        $(document).ready(function () {
+            $(".split-line").wrap('<div class="split-parent"></div>');
+        });
+
+        copies.forEach((copy) => {
+            copy.split = new SplitText(copy, {
+                type: "lines, words, chars",
+                linesClass: "split-line",
+            });
+
+            copy.anim = gsap.from(copy.split.lines, {
+                scrollTrigger: {
+                    trigger: copy,
+                    toggleActions: "restart pause resume",
+                    start: "top 90%,"
+                },
+                duration: 2,
+                ease: "power4.inOut",
+                yPercent: 100,
+                stagger: 0.1,
+            });
+        });
+    }
+
+    setupSplits();
+</script>
