@@ -1,0 +1,185 @@
+---
+const response = await fetch(
+  "https://eu-central-1-shared-euc1-02.cdn.hygraph.com/content/clhzrm4dw2zt701ut4w9p35b8/master",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: `
+        {
+          products {
+            title
+            mainImage
+          }
+        },
+   
+      `,
+    }),
+  }
+);
+const products = await response.json();
+---
+
+<section>
+  {
+    products.data.products.map((product) => (
+      <div class="image__container">
+        <img src={product.mainImage.url} alt={product.title} />
+      </div>
+    ))
+  }
+</section>
+
+<style>
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .image__container {
+    position: relative;
+    width: 400px;
+    margin: 30vh 0 30vh 0;
+  }
+
+  img {
+    width: 100%;
+    opacity: 0;
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: 0.5s;
+  }
+
+  canvas.active {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  let imageArray = [];
+
+  let options = {
+    rootMargin: "0px",
+    threshold: 1.0,
+  };
+
+  let callback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        console.log(entry.target.classList[0]);
+        imageArray[+entry.target.classList[0]].reveal();
+      }
+    });
+  };
+
+  let observer = new IntersectionObserver(callback, options);
+
+  class PixelImage {
+    id: any;
+    image: any;
+    styleWidth: any;
+    styleHeight: any;
+    width: number;
+    height: number;
+    percent: number;
+    canvas: HTMLCanvasElement;
+    scaledHeight: number;
+    scaledWidth: number;
+    ctx: any;
+    constructor(id, image, width, height) {
+      this.id = id;
+      this.image = image;
+      this.styleWidth = width;
+      this.styleHeight = height;
+      this.width = width * window.devicePixelRatio;
+      this.height = height * window.devicePixelRatio;
+      this.percent = 0.001;
+      this.applyCanvas();
+      this.draw();
+    }
+
+    applyCanvas() {
+      this.canvas = document.createElement("canvas");
+      this.canvas.classList.add(this.id);
+      this.ctx = this.canvas.getContext("2d");
+      this.image.parentElement.appendChild(this.canvas);
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
+      this.canvas.style.width = `${this.styleWidth}px`;
+      this.canvas.style.height = `${this.styleHeight}px`;
+      this.scaledWidth = this.width * this.percent;
+      this.scaledHeight = this.height * this.percent;
+
+      // turn off image aliasing
+      this.ctx.msImageSmoothingEnabled = false;
+      this.ctx.mozImageSmoothingEnabled = false;
+      this.ctx.webkitImageSmoothingEnabled = false;
+      this.ctx.imageSmoothingEnabled = false;
+
+      observer.observe(this.canvas);
+    }
+
+    draw() {
+      this.ctx.drawImage(this.image, 0, 0, this.scaledWidth, this.scaledHeight);
+      this.ctx.drawImage(
+        this.canvas,
+        0,
+        0,
+        this.scaledWidth,
+        this.scaledHeight,
+        0,
+        0,
+        this.width,
+        this.height
+      );
+    }
+
+    reveal() {
+      this.canvas.classList.add("active");
+      this.percent =
+        this.percent < 0.1 ? (this.percent += 0.002) : (this.percent += 0.2);
+      if (this.percent > 1) this.percent = 1;
+      this.scaledWidth = this.width * this.percent;
+      this.scaledHeight = this.height * this.percent;
+
+      this.ctx.drawImage(this.image, 0, 0, this.scaledWidth, this.scaledHeight);
+      this.ctx.drawImage(
+        this.canvas,
+        0,
+        0,
+        this.scaledWidth,
+        this.scaledHeight,
+        0,
+        0,
+        this.width,
+        this.height
+      );
+      if (this.percent < 1) requestAnimationFrame(this.reveal.bind(this));
+    }
+  }
+
+  function generatePixelImages() {
+    let images = [...document.querySelectorAll("img")];
+    images.forEach((image, idx) => {
+      let { width, height } = image.getBoundingClientRect();
+      let pixelImage = new PixelImage(idx, image, width, height);
+      imageArray.push(pixelImage);
+    });
+  }
+
+  setTimeout(() => {
+    generatePixelImages();
+  }, 100);
+</script>
